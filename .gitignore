@@ -4,6 +4,7 @@ target/
 build/
 
 # others
+*.iml
 .vscode/
 .DS_Store
 Thumbs.db
