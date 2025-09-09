@@ -1,1 +1,17 @@
+# build files
 *.class
+target/
+build/
+
+# others
+.vscode/
+.DS_Store
+Thumbs.db
+
+# temp files
+*~
+*.swp
+*.tmp
+
+# maven wrapper
+.mvn/wrapper/maven-wrapper.jar*.class
