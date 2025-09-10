@@ -1,6 +1,6 @@
-package com.aeno.marketsim;
+package src.main.java.com;
 
-import com.aeno.marketsim.gui.MainWindow;
+import com.GUI.MainWindow;
 import javax.swing.SwingUtilities;
 
 public class Main {

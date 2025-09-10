@@ -1,4 +1,4 @@
-package com.aeno.marketsim.gui;
+package com.aeno.GUI;
 
 import javax.swing.*;
 import java.awt.*;
