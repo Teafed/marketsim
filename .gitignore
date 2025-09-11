@@ -15,4 +15,4 @@ Thumbs.db
 *.tmp
 
 # maven wrapper
-.mvn/wrapper/maven-wrapper.jar*.class
+.mvn/wrapper/maven-wrapper.jar
