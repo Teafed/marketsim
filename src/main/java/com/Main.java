@@ -1,6 +1,6 @@
 package com;
 
-import com.GUI.MainWindow;
+import com.gui.MainWindow;
 import javax.swing.SwingUtilities;
 
 public class Main {

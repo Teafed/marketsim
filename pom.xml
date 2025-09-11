@@ -17,4 +17,41 @@
    <dependencies>
       <!-- add API dependencies here later -->
    </dependencies>
+
+   <build>
+    <plugins>
+      <!-- run program (Main.java) -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.1.0</version>
+        <configuration>
+          <mainClass>com.Main</mainClass>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <!-- test profiles -->
+    <profile>
+      <id>etldemo</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.1.0</version>
+            <configuration>
+              <mainClass>com.etl.ExtractorDemo</mainClass>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <!-- to add another test profile, use the same format as above
+         (just change <id> and <mainClass>) -->
+
+  </profiles>
+  
 </project>
