@@ -1,4 +1,4 @@
-package com.aeno.GUI;
+package src.main.java.com.GUI;
 
 import javax.swing.*;
 import java.awt.*;
