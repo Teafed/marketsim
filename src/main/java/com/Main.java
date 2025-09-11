@@ -1,4 +1,4 @@
-package src.main.java.com;
+package com;
 
 import com.GUI.MainWindow;
 import javax.swing.SwingUtilities;
