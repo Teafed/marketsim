@@ -1,3 +1,6 @@
+# marketsim csv files
+data/
+
 # build files
 *.class
 target/

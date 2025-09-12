@@ -5,9 +5,9 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
-public class MainWindow extends JFrame {
+public class MainWindow extends JFrame implements SymbolListPanel.SymbolSelectionListener {
    private JSplitPane splitPane;
-   private JPanel leftPanel;
+   private SymbolListPanel dataPanel;
    private JPanel rightPanel;
    private static final int LEFT_PANEL_WIDTH = 250;
    private static final int MIN_LEFT_WIDTH = 150;
@@ -30,22 +30,23 @@ public class MainWindow extends JFrame {
    }
 
    private void createPanels() {
-      // left panel - will contain the csv file list
-      leftPanel = new JPanel();
-      leftPanel.setBackground(Color.LIGHT_GRAY);
-      leftPanel.setBorder(BorderFactory.createTitledBorder("CSV Files"));
-      leftPanel.setPreferredSize(new Dimension(LEFT_PANEL_WIDTH, 0));
-      leftPanel.setMinimumSize(new Dimension(MIN_LEFT_WIDTH, 0));
+      // data panel - contains list of symbols from csv data folder
+      dataPanel = new SymbolListPanel("data");
+      dataPanel.setBackground(Color.LIGHT_GRAY);
+      dataPanel.setBorder(BorderFactory.createTitledBorder("Symbols"));
+      dataPanel.setPreferredSize(new Dimension(LEFT_PANEL_WIDTH, 0));
+      dataPanel.setMinimumSize(new Dimension(MIN_LEFT_WIDTH, 0));
+      dataPanel.addSymbolSelectionListener(this);
 
       // right panel - will show selected csv content
-      rightPanel = new JPanel();
+      rightPanel = new JPanel(new BorderLayout());
       rightPanel.setBackground(Color.WHITE);
       rightPanel.setBorder(BorderFactory.createTitledBorder("Content"));
       rightPanel.setMinimumSize(new Dimension(MIN_RIGHT_WIDTH, 0));
    }
 
    private void setupSplitPane() {
-      splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, leftPanel, rightPanel);
+      splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, dataPanel, rightPanel);
       splitPane.setDividerLocation(LEFT_PANEL_WIDTH);
       splitPane.setResizeWeight(0.0); // right panel gets all extra space
       splitPane.setContinuousLayout(true); // smooth resizing
@@ -74,5 +75,19 @@ public class MainWindow extends JFrame {
             }
          }
       });
+   }
+   
+   // implement the SymbolSelectionListener interface
+   @Override
+   public void onSymbolSelected(String symbol) {
+      // for now, just update the placeholder text
+      rightPanel.removeAll();
+      JLabel selectedLabel = new JLabel(symbol + " chart coming soon <3", JLabel.CENTER);
+      selectedLabel.setFont(new Font("Arial", Font.BOLD, 16));
+      rightPanel.add(selectedLabel, BorderLayout.CENTER);
+      rightPanel.revalidate();
+      rightPanel.repaint();
+      
+      // TODO: create/show the appropriate chart panel
    }
 }
