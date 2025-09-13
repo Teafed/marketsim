@@ -1,3 +1,5 @@
+// splits window into left and right panels. left pane is the list of symbols, right will have chart panel and profile panel
+
 package com.gui;
 
 import javax.swing.*;
@@ -9,6 +11,8 @@ public class MainWindow extends JFrame implements SymbolListPanel.SymbolSelectio
    private JSplitPane splitPane;
    private SymbolListPanel dataPanel;
    private JPanel rightPanel;
+
+   private static final String DATA_FOLDER = "data";
    private static final int LEFT_PANEL_WIDTH = 250;
    private static final int MIN_LEFT_WIDTH = 150;
    private static final int MIN_RIGHT_WIDTH = 300;
@@ -31,7 +35,7 @@ public class MainWindow extends JFrame implements SymbolListPanel.SymbolSelectio
 
    private void createPanels() {
       // data panel - contains list of symbols from csv data folder
-      dataPanel = new SymbolListPanel("data");
+      dataPanel = new SymbolListPanel(DATA_FOLDER);
       dataPanel.setBackground(Color.LIGHT_GRAY);
       dataPanel.setBorder(BorderFactory.createTitledBorder("Symbols"));
       dataPanel.setPreferredSize(new Dimension(LEFT_PANEL_WIDTH, 0));
@@ -55,8 +59,8 @@ public class MainWindow extends JFrame implements SymbolListPanel.SymbolSelectio
       add(splitPane, BorderLayout.CENTER);
    }
 
+   // ensure left panel has a minimum width
    private void setupResizeListener() {
-      // ensure left panel stays constant width when window is resized
       addComponentListener(new ComponentAdapter() {
          @Override
          public void componentResized(ComponentEvent e) {

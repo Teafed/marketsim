@@ -1,3 +1,5 @@
+// symbol list, each entry will display the symbol name, latest fetched price, and percent increase/decrease. clicking one will open a ChartPanel
+
 package com.gui;
 
 import javax.swing.*;
