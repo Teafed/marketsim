@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import javax.swing.plaf.basic.BasicSplitPaneUI;
+import javax.swing.plaf.basic.BasicSplitPaneDivider;
 
 public class MainWindow extends JFrame implements SymbolListPanel.SymbolSelectionListener {
    private JSplitPane splitPane;
@@ -33,6 +35,65 @@ public class MainWindow extends JFrame implements SymbolListPanel.SymbolSelectio
       setLocationRelativeTo(null); // center on screen
    }
 
+   private void setupSplitPane() {
+      splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, dataPanel, rightPanel);
+      splitPane.setDividerLocation(LEFT_PANEL_WIDTH);
+      splitPane.setOneTouchExpandable(false);
+      splitPane.setResizeWeight(0.0); // right panel gets all extra space
+      splitPane.setContinuousLayout(true); // smooth resizing
+      splitPane.setOneTouchExpandable(true); // adds collapse/expand buttons
+
+      // customize dividers
+      splitPane.setDividerSize(1);
+      splitPane.setUI(new BasicSplitPaneUI() {
+         @Override
+         public BasicSplitPaneDivider createDefaultDivider() {
+            return new BasicSplitPaneDivider(this) {
+               @Override
+               public void paint(Graphics g) {
+               }
+            };
+         }
+      });
+      
+      splitPane.setUI(new BasicSplitPaneUI() {
+         @Override
+         public BasicSplitPaneDivider createDefaultDivider() {
+            return new BasicSplitPaneDivider(this) {
+               @Override
+               public void paint(Graphics g) {
+                  // basic
+                  g.setColor(new Color(200, 200, 200));
+                  g.fillRect(0, 0, getWidth(), getHeight());
+
+                  /* testing
+                  // gradient background
+                  Graphics2D g2 = (Graphics2D) g;
+                  g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
+                                      RenderingHints.VALUE_ANTIALIAS_ON);
+                  
+                  GradientPaint gradient = new GradientPaint(
+                     0, 0, new Color(200, 200, 200),
+                     getWidth(), 0, new Color(150, 150, 150)
+                  );
+                  g2.setPaint(gradient);
+                  g2.fillRect(0, 0, getWidth(), getHeight());
+                  
+                  // optional: add subtle grip lines
+                  g2.setColor(new Color(100, 100, 100));
+                  int centerY = getHeight() / 2;
+                  for (int i = -6; i <= 6; i += 3) {
+                     g2.drawLine(2, centerY + i, getWidth() - 2, centerY + i);
+                  }
+                  */
+               }
+            };
+         }
+      });
+      
+      add(splitPane, BorderLayout.CENTER);
+   }
+
    private void createPanels() {
       // data panel - contains list of symbols from csv data folder
       dataPanel = new SymbolListPanel(DATA_FOLDER);
@@ -47,16 +108,6 @@ public class MainWindow extends JFrame implements SymbolListPanel.SymbolSelectio
       rightPanel.setBackground(Color.WHITE);
       rightPanel.setBorder(BorderFactory.createTitledBorder("Content"));
       rightPanel.setMinimumSize(new Dimension(MIN_RIGHT_WIDTH, 0));
-   }
-
-   private void setupSplitPane() {
-      splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, dataPanel, rightPanel);
-      splitPane.setDividerLocation(LEFT_PANEL_WIDTH);
-      splitPane.setResizeWeight(0.0); // right panel gets all extra space
-      splitPane.setContinuousLayout(true); // smooth resizing
-      splitPane.setOneTouchExpandable(true); // adds collapse/expand buttons
-      
-      add(splitPane, BorderLayout.CENTER);
    }
 
    // ensure left panel has a minimum width
