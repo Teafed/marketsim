@@ -5,6 +5,7 @@ data/
 *.class
 target/
 build/
+out/
 
 # others
 *.iml
