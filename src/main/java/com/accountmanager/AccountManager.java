@@ -44,7 +44,7 @@ public class AccountManager {
     // Get account by name
     public Account getAccount(String accountName) {
         for (Account account : accounts) {
-            if (account.getName() == accountName) {
+            if (account.getName().equals(accountName)) {
                 return account;
             }
         }
@@ -55,8 +55,8 @@ public class AccountManager {
     // Get all names of accounts
     public String[] getAccountNames() {
         String[] names = new String[accounts.size()];
-        for (Account account : accounts) {
-            names += account.getName();
+        for (int i = 0; i < accounts.size(); i++) {
+            names[i] = accounts.get(i).getName();
         }
         return names;
     }
