@@ -18,8 +18,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SymbolListPanel extends JPanel {
-   // debug
-   
    private DefaultListModel<SymbolData> symbolModel;
    private JList<SymbolData> symbolList;
    private List<SymbolSelectionListener> listeners;
@@ -41,36 +39,19 @@ public class SymbolListPanel extends JPanel {
 
    private void initializeComponents() {
       setLayout(new BorderLayout());
-      setBorder(BorderFactory.createCompoundBorder(
-         BorderFactory.createTitledBorder(
-            BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1),
-            "symbols",
-            TitledBorder.LEFT,
-            TitledBorder.TOP,
-            new Font("Arial", Font.BOLD, 12),
-            Color.DARK_GRAY
-         ),
-         BorderFactory.createEmptyBorder(5, 5, 5, 5)
-      ));
-
+      setBackground(GUIComponents.BG_MEDIUM);
+      setBorder(GUIComponents.createBorder());
+      
       symbolModel = new DefaultListModel<>();
-      symbolList = new JList<>(symbolModel);
+      symbolList = GUIComponents.createList(symbolModel);
 
-      // use SymbolData instead of String
       symbolList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
       symbolList.setCellRenderer(new SymbolCellRenderer());
       symbolList.setFixedCellHeight(50);
       
-      // remove default selection colors since renderer handles it
-      symbolList.setSelectionBackground(Color.WHITE);
-      symbolList.setSelectionForeground(Color.BLACK);
-      
-      // custom scrollpane
-      JScrollPane scrollPane = new JScrollPane(symbolList);
+      JScrollPane scrollPane = GUIComponents.createScrollPane(symbolList);
       scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
       scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-      scrollPane.setBorder(BorderFactory.createEmptyBorder());
-      scrollPane.getViewport().setBackground(Color.WHITE);
       
       add(scrollPane, BorderLayout.CENTER);
    }
@@ -98,16 +79,15 @@ public class SymbolListPanel extends JPanel {
          }
       }
 
-      // sort and add symbols (filename without .csv extension)
+      // sort and add symbols
       Arrays.sort(csvFiles, (a, b) -> a.getName().compareToIgnoreCase(b.getName()));
 
-      // temporary! please remove and replace with data   
+      // TEMPORARY! please remove and replace with data   
       java.util.Random random = new java.util.Random();
       for (File file : csvFiles) {
          String fileName = file.getName();
          String symbol = fileName.substring(0, fileName.lastIndexOf('.'));
          
-         // mock data - you'll replace this with actual csv parsing
          double basePrice = 50 + random.nextDouble() * 200;
          double change = (random.nextDouble() - 0.5) * 10;
          double changePercent = (change / basePrice) * 100;

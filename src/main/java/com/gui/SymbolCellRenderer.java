@@ -4,7 +4,7 @@ import com.etl.SymbolData;
 import javax.swing.*;
 import java.awt.*;
 
-// Custom cell renderer for rich symbol display
+// handles cell rendering in SymbolListPanel
 public class SymbolCellRenderer extends JPanel implements ListCellRenderer<SymbolData> {
    private JLabel symbolLabel;
    private JLabel priceLabel;
@@ -12,27 +12,28 @@ public class SymbolCellRenderer extends JPanel implements ListCellRenderer<Symbo
    
    public SymbolCellRenderer() {
       setLayout(new BorderLayout());
-      setBorder(BorderFactory.createEmptyBorder(4, 8, 4, 8));
+      setBorder(GUIComponents.createBorder());
       
       symbolLabel = new JLabel();
-      symbolLabel.setFont(new Font("Arial", Font.BOLD, 14));
+      symbolLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
       
       priceLabel = new JLabel();
-      priceLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+      priceLabel.setFont(new Font("Segoe UI", Font.PLAIN, 13));
       priceLabel.setHorizontalAlignment(JLabel.RIGHT);
       
       changeLabel = new JLabel();
-      changeLabel.setFont(new Font("Arial", Font.PLAIN, 11));
+      changeLabel.setFont(new Font("Segoe UI", Font.PLAIN, 11));
       changeLabel.setHorizontalAlignment(JLabel.RIGHT);
       
       // layout
       JPanel leftPanel = new JPanel(new BorderLayout());
-      leftPanel.add(symbolLabel, BorderLayout.CENTER);
+      leftPanel.add(symbolLabel, BorderLayout.WEST);
       leftPanel.setOpaque(false);
       
       JPanel rightPanel = new JPanel(new BorderLayout());
       rightPanel.add(priceLabel, BorderLayout.NORTH);
-      rightPanel.add(changeLabel, BorderLayout.CENTER);
+      rightPanel.add(changeLabel, BorderLayout.SOUTH);
+      rightPanel.setPreferredSize(new Dimension(80, 40));
       rightPanel.setOpaque(false);
       
       add(leftPanel, BorderLayout.WEST);
@@ -57,28 +58,28 @@ public class SymbolCellRenderer extends JPanel implements ListCellRenderer<Symbo
          
          // color coding for change
          if (changePercent > 0) {
-            changeLabel.setForeground(new Color(34, 139, 34)); // forest green
+            changeLabel.setForeground(GUIComponents.ACCENT_GREEN);
          } else if (changePercent < 0) {
-            changeLabel.setForeground(new Color(220, 20, 60)); // crimson
+            changeLabel.setForeground(GUIComponents.ACCENT_RED);
          } else {
-            changeLabel.setForeground(Color.GRAY);
+            changeLabel.setForeground(GUIComponents.TEXT_SECONDARY);
          }
       }
       
       // selection styling
       if (isSelected) {
-         setBackground(new Color(70, 130, 180)); // steel blue
+         setBackground(GUIComponents.ACCENT_BLUE);
          symbolLabel.setForeground(Color.WHITE);
          priceLabel.setForeground(Color.WHITE);
       } else {
          // alternating row colors
          if (index % 2 == 0) {
-            setBackground(new Color(248, 248, 248)); // very light gray
+            setBackground(GUIComponents.BG_DARK);
          } else {
-            setBackground(Color.WHITE);
+            setBackground(GUIComponents.BG_MEDIUM);
          }
-         symbolLabel.setForeground(Color.BLACK);
-         priceLabel.setForeground(Color.BLACK);
+         symbolLabel.setForeground(GUIComponents.TEXT_PRIMARY);
+         priceLabel.setForeground(GUIComponents.TEXT_PRIMARY);
       }
       
       setOpaque(true);
