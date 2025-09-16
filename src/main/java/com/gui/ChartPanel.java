@@ -24,3 +24,4 @@ public class ChartPanel extends ContentPanel {
       repaint();
    }
 }
+//hello
