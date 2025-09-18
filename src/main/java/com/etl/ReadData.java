@@ -7,37 +7,57 @@ import java.nio.file.*;
 import java.util.*;
 
 public class ReadData {
-    private Map<String, List<String[]>> data = new HashMap<>();
+    private final Path dataDir;
+    private final Map<String, List<String[]>> cache = new HashMap<>();
 
-    public ReadData(String dataDir) throws IOException {
-        loadData(dataDir);
+    public ReadData(String dataDir) {
+        this.dataDir = Paths.get(dataDir);
     }
 
-    private void loadData(String dataDir) throws IOException {
-        Files.list(Paths.get(dataDir))
-                .filter(path -> path.toString().endsWith(".csv"))
-                .forEach(path -> {
-                    try {
-                        List<String[]> rows = new ArrayList<>();
-                        try (BufferedReader br = new BufferedReader(new FileReader(path.toFile()))) {
-                            String line;
-                            while ((line = br.readLine()) != null) {
-                                rows.add(line.split(",")); // simple CSV split
-                            }
-                        }
-                        data.put(path.getFileName().toString(), rows);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
+    // trying out different way of getting the data
+    public Stream<String[]> streamData(String fileName) throws IOException {
+        Path filePath = dataDir.resolve(fileName);
+        if (!Files.exists(filePath)) {
+            throw new FileNotFoundException("File not found: " + filePath);
+        }
+
+        BufferedReader br = Files.newBufferedReader(filePath);
+        return br.lines()
+                 .map(line -> line.split(",")) // simple CSV, for more complex CSV use a parser
+                 .onClose(() -> {
+                     try { br.close(); } catch (IOException ignored) {}
+                 });
     }
 
-    // Public accessor for other classes
-    public List<String[]> getFileData(String fileName) {
-        return data.get(fileName);
+    public List<String[]> loadData(String fileName) throws IOException {
+        if (cache.containsKey(fileName)) {
+            return cache.get(fileName); // return cached data
+        }
+        
+        Path filePath = dataDir.resolve(fileName);
+        if (!Files.exists(filePath)) {
+            throw new FileNotFoundException("File not found: " + filePath);
+        }
+
+        List<String[]> rows = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath.toFile()))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                rows.add(line.split(",")); // simple CSV split
+            }
+        }
+        
+        cache.put(fileName, rows); // store in cache
+        return rows;
     }
 
-    public Set<String> getFileNames() {
-        return data.keySet();
+    public List<String> getFileNames() throws IOException {
+        List<String> fileNames = new ArrayList<>();
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(dataDir, "*.csv")) {
+            for (Path path : stream) {
+                fileNames.add(path.getFileName().toString());
+            }
+        }
+        return fileNames;
     }
 }
