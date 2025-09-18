@@ -25,10 +25,10 @@ public class SymbolListPanel extends JPanel {
 
    // interface that listeners must implement
    public interface SymbolSelectionListener {
-      void onSymbolSelected(String symbol);
+       void onSymbolSelected(SymbolData symbol);
    }
 
-   public SymbolListPanel(String dataFolderPath) {
+    public SymbolListPanel(String dataFolderPath) {
       this.dataFolderPath = dataFolderPath;
       this.listeners = new ArrayList<>();
       
@@ -103,7 +103,7 @@ public class SymbolListPanel extends JPanel {
             if (!e.getValueIsAdjusting()) { // only fire when selection is final
                SymbolData selectedSymbol = symbolList.getSelectedValue();
                if (selectedSymbol != null) {
-                  notifyListeners(selectedSymbol.getSymbol());
+                  notifyListeners(selectedSymbol);
                }
             }
          }
@@ -119,7 +119,7 @@ public class SymbolListPanel extends JPanel {
       listeners.remove(listener);
    }
 
-   private void notifyListeners(String symbol) {
+   private void notifyListeners(SymbolData symbol) {
       for (SymbolSelectionListener listener : listeners) {
          listener.onSymbolSelected(symbol);
       }

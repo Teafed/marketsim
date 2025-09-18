@@ -2,6 +2,8 @@
 
 package com.gui;
 
+import com.etl.SymbolData;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -86,7 +88,8 @@ public class MainWindow extends JFrame implements SymbolListPanel.SymbolSelectio
    
    // implement the SymbolSelectionListener interface
    @Override
-   public void onSymbolSelected(String symbol) {
-      chartPanel.openChart(symbol);
+   public void onSymbolSelected(SymbolData symbol) {
+
+       chartPanel.openChart(symbol);
    }
 }
