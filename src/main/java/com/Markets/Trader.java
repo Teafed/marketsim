@@ -1,4 +1,6 @@
-package com.accountmanager;
+package com.Markets;
+
+import com.accountmanager.Account;
 
 // Handles buying and selling of stocks
 public class Trader {
@@ -24,7 +26,7 @@ public class Trader {
 
     // Sell stock
     public boolean sellStock(Account account, String stock, int quantityOfShares) {
-        if (account.findStock(stock)) {
+        if (account.ownsStock(stock)) {
             int stockPrice = broker.getStockPrice("stock");
             int cost = stockPrice * quantityOfShares;
             account.removeOwnedStock(stock);

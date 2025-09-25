@@ -1,6 +1,9 @@
 package com.accountmanager;
 
-public class Option {
+import com.Markets.Stock;
+import com.Markets.TradeItem;
+
+public class Option extends TradeItem {
 
     public enum PositionType {
         CALL,
@@ -11,6 +14,7 @@ public class Option {
     private final Stock stock;    // the stock this option belongs to
 
     public Option (Stock stock, PositionType position) {
+        super(stock.getName(), stock.getSymbol());
         this.stock = stock;         // assign the stock this option belongs to
         this.position = position;   // assign the option a position
     }

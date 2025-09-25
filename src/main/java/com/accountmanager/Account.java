@@ -1,13 +1,17 @@
 package com.accountmanager;
 
+import com.Markets.Stock;
+
 import java.util.ArrayList;
+import java.util.Map;
 
 // One account
 public class Account {
 
-    private int accountValue; // Current account value stored in cents
+    private int accountValue; // Current total account value stored in cents
+    private int availableBalance; // the amount the user can currently trade
     private String accountName; // User defined name of account
-    private ArrayList<String> ownedStocks;  // stocks the account owns
+    private Map<Stock,Integer> holdings;  // stocks the account owns
     private ArrayList<String> watchlistStocks; // stocks the account is watching
 
     // constructor
@@ -46,19 +50,35 @@ public class Account {
         this.accountValue -= amount;
     }
 
+    public void updateAccountValue() {
+        accountValue = availableBalance;
+        for (Map.Entry<Stock,Integer> entry : holdings.entrySet()) {
+            Stock stock = entry.getKey();
+            int holdingAmount = entry.getValue();
+            if (holdingAmount > 0) {
+                accountValue += (stock.getCurrentPrice() * holdingAmount);
+            }
+        }
+    }
+
     // Add stock to owned list
-    public boolean addOwnedStock(String stock) {
-        this.ownedStocks.add(stock);
+    public boolean addHolding(Stock stock, int amount) {
+        this.holdings.put(stock,amount);
         return true;
     }
 
     // Remove stock from owned list
-    public boolean removeOwnedStock(String stock) {
-        if(this.ownedStocks.contains(stock)) {
-            this.ownedStocks.remove(stock);     // stock was removed
+    public boolean removeHolding(Stock stock) {
+        if(this.holdings.containsKey(stock)) {
+            this.holdings.remove(stock);     // stock was removed
             return true;
         }
         return false;       // stock was not removed
+    }
+
+    // return number of shares held of a specific stock
+    public int getNumberOfShares(Stock stock) {
+        return holdings.get(stock);
     }
 
     // Add stock to watchlist
@@ -81,8 +101,13 @@ public class Account {
     }
 
     // Get list of owned stocks
-    public String[]  getOwnedStocks() {
-        return this.ownedStocks.toArray(new String[0]);
+    public String[][] getHoldings() {
+        String[][] array = new String[this.watchlistStocks.size()][2];
+        for (int i = 0; i < this.watchlistStocks.size(); i++) {
+            array[i][0] = this.watchlistStocks.get(i);
+            //array[i][1] = Integer.toString(this.holdings.get(this.watchlistStocks.get(i)));
+        }
+        return array;
     }
 
     // get watchlist of stocks
@@ -91,9 +116,14 @@ public class Account {
     }
 
     // check if stock is owned by account
-    public boolean findStock(String stock) {
-        return ownedStocks.contains(stock);
+    public boolean ownsStock(String stock) {
+        return true;
     }
 
+    @Override
+    public String toString() {
+        return "Account Name: " + accountName
+                           + " Account Value: " + accountValue
+                            + " Available Balance: " + availableBalance;}
 
 }
