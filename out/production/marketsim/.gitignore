@@ -1,0 +1,19 @@
+# build files
+*.class
+target/
+build/
+
+# others
+*.iml
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# temp files
+*~
+*.swp
+*.tmp
+
+# maven wrapper
+.mvn/wrapper/maven-wrapper.jar
