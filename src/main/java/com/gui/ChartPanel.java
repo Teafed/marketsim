@@ -28,7 +28,7 @@ public class ChartPanel extends ContentPanel {
         setLayout(new BorderLayout());
     }
 
-    public void openChart(SymbolData data) {
+    public void openChart(SymbolData data) throws IOException {
         removeAll();
 
         // Example: Use the symbol name as a CSV filename

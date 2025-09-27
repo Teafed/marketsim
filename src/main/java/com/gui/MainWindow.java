@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.IOException;
 
 public class MainWindow extends JFrame implements SymbolListPanel.SymbolSelectionListener {
    private JSplitPane splitPane;
@@ -40,7 +41,7 @@ public class MainWindow extends JFrame implements SymbolListPanel.SymbolSelectio
 
    private void setupSplitPane() {
       splitPane = GUIComponents.createSplitPane(
-         JSplitPane.HORIZONTAL_SPLIT, symbolPanel, chartPanel
+         "horizontal", symbolPanel, chartPanel
       );
       
       splitPane.setDividerLocation(LEFT_PANEL_WIDTH);
@@ -89,7 +90,10 @@ public class MainWindow extends JFrame implements SymbolListPanel.SymbolSelectio
    // implement the SymbolSelectionListener interface
    @Override
    public void onSymbolSelected(SymbolData symbol) {
-
-       chartPanel.openChart(symbol);
+       try {
+           chartPanel.openChart(symbol);
+       } catch (IOException e) {
+           throw new RuntimeException(e);
+       }
    }
 }

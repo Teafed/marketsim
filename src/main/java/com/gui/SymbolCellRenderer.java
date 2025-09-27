@@ -6,9 +6,9 @@ import java.awt.*;
 
 // handles cell rendering in SymbolListPanel
 public class SymbolCellRenderer extends JPanel implements ListCellRenderer<SymbolData> {
-   private JLabel symbolLabel;
-   private JLabel priceLabel;
-   private JLabel changeLabel;
+   private final JLabel symbolLabel;
+   private final JLabel priceLabel;
+   private final JLabel changeLabel;
    
    public SymbolCellRenderer() {
       setLayout(new BorderLayout());

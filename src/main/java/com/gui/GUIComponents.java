@@ -2,6 +2,7 @@ package com.gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class GUIComponents {
    // color palette
@@ -44,9 +45,11 @@ public class GUIComponents {
       return scrollPane;
    }
 
-   public static JSplitPane createSplitPane(int orientation, Component left, Component right) {
-      JSplitPane splitPane = new JSplitPane(orientation, left, right);
-      
+   public static JSplitPane createSplitPane(String orientation, Component left, Component right) {
+      JSplitPane splitPane = new JSplitPane(
+              (Objects.equals(orientation, "horizontal") ?JSplitPane.HORIZONTAL_SPLIT
+                      : JSplitPane.VERTICAL_SPLIT), left, right);
+
       splitPane.setUI(new SplitPaneUI());
       splitPane.setBackground(GUIComponents.BG_DARK);
       splitPane.setBorder(null);

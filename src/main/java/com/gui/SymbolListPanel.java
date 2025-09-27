@@ -4,14 +4,7 @@ package com.gui;
 
 import com.etl.SymbolData;
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.border.TitledBorder;
-import javax.swing.plaf.basic.BasicSplitPaneDivider;
-import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,8 +13,8 @@ import java.util.List;
 public class SymbolListPanel extends JPanel {
    private DefaultListModel<SymbolData> symbolModel;
    private JList<SymbolData> symbolList;
-   private List<SymbolSelectionListener> listeners;
-   private String dataFolderPath;
+   private final List<SymbolSelectionListener> listeners;
+   private final String dataFolderPath;
 
    // interface that listeners must implement
    public interface SymbolSelectionListener {
@@ -72,14 +65,12 @@ public class SymbolListPanel extends JPanel {
       }
       
       System.out.println("loading symbols from: " + dataFolderPath);
-      System.out.println("found " + (csvFiles != null ? csvFiles.length : 0) + " csv files");
-      if (csvFiles != null) {
-         for (File f : csvFiles) {
-            System.out.println("   " + f.getName());
-         }
+      System.out.println("found " + csvFiles.length + " csv files");
+      for (File f : csvFiles) {
+         System.out.println("   " + f.getName());
       }
 
-      // sort and add symbols
+       // sort and add symbols
       Arrays.sort(csvFiles, (a, b) -> a.getName().compareToIgnoreCase(b.getName()));
 
       // TEMPORARY! please remove and replace with data   
@@ -97,14 +88,11 @@ public class SymbolListPanel extends JPanel {
    }
 
    private void setupListeners() {
-      symbolList.addListSelectionListener(new ListSelectionListener() {
-         @Override
-         public void valueChanged(ListSelectionEvent e) {
-            if (!e.getValueIsAdjusting()) { // only fire when selection is final
-               SymbolData selectedSymbol = symbolList.getSelectedValue();
-               if (selectedSymbol != null) {
-                  notifyListeners(selectedSymbol);
-               }
+      symbolList.addListSelectionListener(e -> {
+         if (!e.getValueIsAdjusting()) { // only fire when selection is final
+            SymbolData selectedSymbol = symbolList.getSelectedValue();
+            if (selectedSymbol != null) {
+               notifyListeners(selectedSymbol);
             }
          }
       });
