@@ -7,7 +7,7 @@ import java.awt.*;
 import java.io.*;
 import java.util.List;
 import com.etl.ReadData;
-import com.etl.SymbolData;
+import com.market.TradeItem;
 
 public class ChartPanel extends ContentPanel {
     private ReadData reader;
@@ -28,7 +28,7 @@ public class ChartPanel extends ContentPanel {
         setLayout(new BorderLayout());
     }
 
-    public void openChart(SymbolData data) throws IOException {
+    public void openChart(TradeItem data) throws IOException {
         removeAll();
 
         // Example: Use the symbol name as a CSV filename

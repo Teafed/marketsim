@@ -1,4 +1,4 @@
-package com.accountmanager;
+package com.market;
 
 public class Stock {
 

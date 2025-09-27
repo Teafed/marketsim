@@ -1,11 +1,11 @@
 package com.gui;
 
-import com.etl.SymbolData;
+import com.market.TradeItem;
 import javax.swing.*;
 import java.awt.*;
 
 // handles cell rendering in SymbolListPanel
-public class SymbolCellRenderer extends JPanel implements ListCellRenderer<SymbolData> {
+public class SymbolCellRenderer extends JPanel implements ListCellRenderer<TradeItem> {
    private final JLabel symbolLabel;
    private final JLabel priceLabel;
    private final JLabel changeLabel;
@@ -42,8 +42,8 @@ public class SymbolCellRenderer extends JPanel implements ListCellRenderer<Symbo
    
    @Override
    public Component getListCellRendererComponent(
-         JList<? extends SymbolData> list,
-         SymbolData value,
+         JList<? extends TradeItem> list,
+         TradeItem value,
          int index,
          boolean isSelected,
          boolean cellHasFocus) {
@@ -53,7 +53,8 @@ public class SymbolCellRenderer extends JPanel implements ListCellRenderer<Symbo
          priceLabel.setText(String.format("$%.2f", value.getPrice()));
          
          double changePercent = value.getChangePercent();
-         String changeText = String.format("%+.2f%%", changePercent);
+         double change = value.getChange();
+         String changeText = String.format("%+.2f %+.2f%%", change, changePercent);
          changeLabel.setText(changeText);
          
          // color coding for change

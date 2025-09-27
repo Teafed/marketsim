@@ -2,7 +2,7 @@
 
 package com.gui;
 
-import com.etl.SymbolData;
+import com.market.TradeItem;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -11,14 +11,14 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SymbolListPanel extends JPanel {
-   private DefaultListModel<SymbolData> symbolModel;
-   private JList<SymbolData> symbolList;
+   private DefaultListModel<TradeItem> symbolModel;
+   private JList<TradeItem> symbolList;
    private final List<SymbolSelectionListener> listeners;
    private final String dataFolderPath;
 
    // interface that listeners must implement
    public interface SymbolSelectionListener {
-       void onSymbolSelected(SymbolData symbol);
+       void onSymbolSelected(TradeItem symbol);
    }
 
     public SymbolListPanel(String dataFolderPath) {
@@ -83,14 +83,14 @@ public class SymbolListPanel extends JPanel {
          double change = (random.nextDouble() - 0.5) * 10;
          double changePercent = (change / basePrice) * 100;
          
-         symbolModel.addElement(new SymbolData(symbol, basePrice, change, changePercent));
+         symbolModel.addElement(new TradeItem(symbol, basePrice, change, changePercent));
       }
    }
 
    private void setupListeners() {
       symbolList.addListSelectionListener(e -> {
          if (!e.getValueIsAdjusting()) { // only fire when selection is final
-            SymbolData selectedSymbol = symbolList.getSelectedValue();
+            TradeItem selectedSymbol = symbolList.getSelectedValue();
             if (selectedSymbol != null) {
                notifyListeners(selectedSymbol);
             }
@@ -107,7 +107,7 @@ public class SymbolListPanel extends JPanel {
       listeners.remove(listener);
    }
 
-   private void notifyListeners(SymbolData symbol) {
+   private void notifyListeners(TradeItem symbol) {
       for (SymbolSelectionListener listener : listeners) {
          listener.onSymbolSelected(symbol);
       }
@@ -119,7 +119,7 @@ public class SymbolListPanel extends JPanel {
    }
 
    public String getSelectedSymbol() {
-      SymbolData selected = symbolList.getSelectedValue();
+      TradeItem selected = symbolList.getSelectedValue();
       return selected != null ? selected.getSymbol() : null;
    }
 

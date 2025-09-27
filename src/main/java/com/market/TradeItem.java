@@ -1,13 +1,13 @@
 // data class for symbol information
-package com.etl;
+package com.market;
 
-public class SymbolData {
-   private String symbol;
-   private double price;
-   private double change;
-   private double changePercent;
+public class TradeItem {
+   private final String symbol;
+   private final double price;
+   private final double change;
+   private final double changePercent;
    
-   public SymbolData(String symbol, double price, double change, double changePercent) {
+   public TradeItem(String symbol, double price, double change, double changePercent) {
       this.symbol = symbol;
       this.price = price;
       this.change = change;

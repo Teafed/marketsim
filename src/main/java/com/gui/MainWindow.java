@@ -2,7 +2,7 @@
 
 package com.gui;
 
-import com.etl.SymbolData;
+import com.market.TradeItem;
 
 import javax.swing.*;
 import java.awt.*;
@@ -89,7 +89,7 @@ public class MainWindow extends JFrame implements SymbolListPanel.SymbolSelectio
    
    // implement the SymbolSelectionListener interface
    @Override
-   public void onSymbolSelected(SymbolData symbol) {
+   public void onSymbolSelected(TradeItem symbol) {
        try {
            chartPanel.openChart(symbol);
        } catch (IOException e) {
