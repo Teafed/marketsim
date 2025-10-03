@@ -1,4 +1,4 @@
-package com.Markets;
+package com.markets;
 
 public abstract class TradeItem {
     private String name;
@@ -23,5 +23,10 @@ public abstract class TradeItem {
 
     public void updatePrice(int price) {
         this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName() + "{" + "name=" + name + ", symbol=" + symbol + ", price=" + price + '}';
     }
 }

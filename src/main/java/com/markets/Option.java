@@ -1,7 +1,4 @@
-package com.accountmanager;
-
-import com.Markets.Stock;
-import com.Markets.TradeItem;
+package com.markets;
 
 public class Option extends TradeItem {
 

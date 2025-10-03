@@ -1,4 +1,4 @@
-package com.Markets;
+package com.markets;
 
 public class TradeRequest {
 }
