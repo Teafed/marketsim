@@ -1,5 +1,6 @@
-# marketsim csv files
+# marketsim files
 data/
+*.db
 
 # build files
 *.class

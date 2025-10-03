@@ -31,25 +31,15 @@ public class ChartPanel extends ContentPanel {
     public void openChart(TradeItem data) throws IOException {
         removeAll();
 
-        // Example: Use the symbol name as a CSV filename
-        List<String[]> rows = reader.loadData(data.getSymbol() + ".csv");
-        
-        if (rows != null) {
-           JLabel infoLabel = new JLabel(
-                "Loaded " + rows.size() + " rows for " + data.getSymbol(),
-                JLabel.CENTER
-           );
-           infoLabel.setFont(new Font("Arial", Font.BOLD, 16));
-           add(infoLabel, BorderLayout.CENTER);
-        } else {
-           JLabel errorLabel = new JLabel(
-                "No data found for " + data.getSymbol(),
-                JLabel.CENTER
-           );
-           errorLabel.setFont(new Font("Arial", Font.BOLD, 16));
-           add(errorLabel, BorderLayout.CENTER);
-        }
-
+        /* if building chart for the first time:
+                1. check local database
+                    - if no data yet for this TradeItem, fill historical data
+                2. sync latest candles
+                    - get latest timestamp in db, then fill up to present
+                3. start live updates
+                4. build initial chart
+                5. loop auto refresh to see live updates
+         */
         revalidate();
         repaint();
     }
